@@ -1,0 +1,142 @@
+/* Compact workspace layout */
+html,body{overflow-x:hidden}
+.intro-footer{background:#141b52;color:#fff;padding:18px clamp(18px,4vw,56px);display:flex;align-items:baseline;gap:18px;flex-wrap:wrap}
+.intro-footer strong{font:700 21px Calibri,'Segoe UI',sans-serif;letter-spacing:.01em}
+.intro-footer span{font:400 21px Calibri,'Segoe UI',sans-serif;color:#b8c2ec;line-height:1.35}
+.intro-footer small{margin-left:auto;color:#7f8bc1;font-size:8px;letter-spacing:.12em;white-space:nowrap}
+.brand-logo{height:63px;width:auto;display:block;object-fit:contain;object-position:left center}
+.brand-word{font:700 39px Calibri,'Segoe UI',sans-serif;color:#1b2a4a;letter-spacing:.02em;line-height:1}
+.topbar{height:96px!important;padding:0 clamp(18px,4vw,56px)!important}
+.brand-mark{width:32px!important;height:32px!important;font-size:19px!important}
+.brand strong{font-size:15px!important}
+.hero{min-height:278px!important;padding:42px clamp(24px,7vw,90px)!important}
+.hero h1{font-size:clamp(34px,4vw,52px)!important}
+.hero-text{font-size:12px!important;line-height:1.5!important;margin-top:17px!important}
+.hero-orbit{transform:scale(.8)!important;transform-origin:top right;margin-right:2vw!important}
+.section-shell{padding:30px clamp(18px,7vw,90px)!important}
+.section-kicker h2,.results-head h2{font-size:24px!important}
+.section-kicker .eyebrow{margin-bottom:7px}
+.search-wrap{height:52px!important;margin-top:20px!important}
+.search-results{margin-top:6px}
+.upload-grid{margin-top:20px!important;gap:10px!important}
+.upload-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+.upload-card{min-height:178px!important;padding:16px!important}
+.upload-card{min-width:0!important}
+.upload-title{font-size:12px!important;margin-top:16px!important}
+.upload-desc{font-size:10px!important;min-height:27px!important}
+.analysis-bar{margin-top:22px;padding-top:17px}
+.results-head{align-items:center}
+.metrics{margin-top:22px;gap:10px}
+.metric{padding:15px}
+.metric strong{font-size:25px}
+.metric-feature strong{font-size:34px}
+.table-heading{margin-top:30px}
+footer{padding:25px clamp(18px,7vw,90px)}
+@media(max-width:800px){.hero{min-height:250px;padding:35px 24px}.hero-orbit{display:none}.section-shell{padding:28px 24px}.upload-card{min-height:172px}}
+@media(max-width:700px){.intro-footer{display:block;padding:14px 18px}.intro-footer strong,.intro-footer span{display:block}.intro-footer span{margin-top:5px}.intro-footer small{display:block;margin-top:7px}.upload-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}.upload-card{min-height:168px!important;padding:13px!important}}
+@media(max-width:420px){.upload-grid{grid-template-columns:1fr!important}}
+*{box-sizing:border-box} :root{--ink:#16205c;--blue:#2747c7;--cyan:#4c9fff;--purple:#7161d9;--paper:#f5f6fb;--muted:#727894;--line:#dfe3f1;--white:#fff;--red:#e6444a}body{margin:0;background:var(--paper);color:var(--ink);font-family:Manrope, sans-serif} .topbar{height:82px;background:#fff;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;padding:0 clamp(24px,6vw,96px)}.brand{display:flex;gap:12px;align-items:center}.brand-mark{background:var(--blue);color:#fff;width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font:700 23px 'Space Grotesk';transform:rotate(-7deg)}.brand strong{display:block;font:700 17px 'Space Grotesk';letter-spacing:.08em}.brand span{display:block;color:var(--muted);font-size:10px;margin-top:2px}.header-note{font-size:12px;color:var(--muted)}.status-dot{width:7px;height:7px;display:inline-block;background:#47c995;border-radius:50%;margin-left:8px}.hero{min-height:370px;background:linear-gradient(112deg,#17225f 0%,#273dba 52%,#7161d9 100%);color:#fff;padding:70px clamp(24px,10vw,150px);display:flex;justify-content:space-between;overflow:hidden;position:relative}.hero:after{content:'';position:absolute;width:500px;height:500px;border:1px solid rgba(255,255,255,.11);border-radius:50%;right:-130px;top:-160px}.eyebrow{font-size:10px;font-weight:800;letter-spacing:.18em;margin:0 0 13px;color:#8290de}.hero .eyebrow{color:#9eb5ff}.hero h1{font:700 clamp(42px,5vw,68px)/.98 'Space Grotesk';margin:0;letter-spacing:-.03em}.hero h1 em{color:#a7d7ff;font-style:normal}.hero-text{max-width:440px;line-height:1.7;font-size:14px;color:#d5dcff;margin-top:25px}.hero-orbit{width:270px;height:230px;position:relative;margin:5px 6vw 0 0}.orbit-ring{position:absolute;border:1px solid rgba(255,255,255,.25);border-radius:50%;transform:rotate(-25deg)}.ring-one{width:270px;height:120px;top:50px}.ring-two{width:190px;height:190px;left:40px;top:15px}.orbit-core{position:absolute;top:76px;left:94px;width:82px;height:82px;border-radius:50%;background:#fff;color:var(--blue);display:grid;place-items:center;align-content:center;font:700 16px 'Space Grotesk';box-shadow:0 0 0 12px rgba(255,255,255,.08)}.orbit-core span{font-size:9px;letter-spacing:.15em;color:var(--purple)}.orbit-label{position:absolute;background:rgba(255,255,255,.12);padding:6px 9px;border:1px solid rgba(255,255,255,.16);border-radius:4px;font-size:9px;letter-spacing:.08em}.label-one{top:16px;right:8px}.label-two{bottom:14px;left:8px}.section-shell{padding:54px clamp(24px,10vw,150px)}.search-panel{background:#fff}.section-kicker{display:flex;gap:16px;align-items:flex-start;position:relative}.section-kicker>span{font:700 12px 'Space Grotesk';color:var(--cyan);padding-top:2px}.section-kicker h2,.results-head h2{font:700 30px 'Space Grotesk';margin:0;letter-spacing:-.03em}.search-wrap{max-width:780px;margin:30px auto 0;border:1px solid #bfc8ea;border-radius:8px;height:62px;display:flex;align-items:center;padding:0 20px;box-shadow:0 10px 30px rgba(39,71,199,.08)}.search-icon{font-size:28px;color:var(--blue);margin-right:12px;background:none;border:0;padding:0;cursor:pointer}.search-wrap input{border:0;outline:0;flex:1;font:500 15px Manrope;color:var(--ink)}.search-wrap input::-webkit-search-cancel-button{display:none}.search-clear{display:none;flex:none;width:26px;height:26px;border-radius:50%;background:#eef1fa;color:var(--muted);font-size:19px;line-height:1;text-decoration:none;place-items:center;transition:.15s}.search-clear:hover{background:#e2e7f7;color:var(--ink)}.search-wrap input:not(:placeholder-shown)~.search-clear{display:grid}kbd{font-size:11px;color:var(--muted);border:1px solid var(--line);padding:5px 8px;border-radius:4px}.search-results{max-width:780px;margin:10px auto 0}.empty-state{text-align:center;color:var(--muted);font-size:12px;padding:25px}.empty-icon{display:block;font-size:27px;color:#9ea9d9}.result-item{display:flex;justify-content:space-between;gap:20px;padding:16px 18px;border-bottom:1px solid var(--line);background:#fff}.result-main strong{display:block;font-size:14px}.result-main span,.result-code{font-size:11px;color:var(--muted)}.result-code{white-space:nowrap}.result-tag{color:var(--blue);font-size:10px;font-weight:800}.group-block{max-width:1080px;margin:38px auto 0;border-top:1px solid var(--line);padding-top:22px}.group-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap}.group-head h3{font:700 17px 'Space Grotesk';margin:0}.group-head span{font-size:11px;color:var(--muted)}.group-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;margin-top:16px}.group-card{position:relative;background:#fff;border:1px solid var(--line);border-radius:7px;padding:16px 16px 12px}.group-number{position:absolute;top:12px;right:14px;font:700 11px 'Space Grotesk';color:var(--cyan)}.group-item{display:flex;gap:8px;align-items:baseline;font-size:11px;padding:5px 0;border-bottom:1px dashed #eef0f8}.group-item:last-child{border-bottom:0}.group-item b{color:var(--blue);font:700 11px 'Space Grotesk';flex:none}.group-item span{color:var(--muted);line-height:1.35}.group-item-lead{padding-right:34px}.group-item-lead span{color:var(--ink);font-weight:700}.upload-section{background:#f5f6fb}.library-state{margin-left:auto;color:var(--muted);font-size:11px}.upload-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:30px}.upload-card{background:#fff;border:1px solid var(--line);border-radius:7px;padding:20px;min-height:190px;display:flex;flex-direction:column;cursor:pointer;transition:.2s}.upload-card:hover{border-color:var(--blue);transform:translateY(-3px);box-shadow:0 8px 20px rgba(39,71,199,.08)}.upload-number{font:700 11px 'Space Grotesk';color:var(--cyan)}.upload-title{font-weight:800;font-size:14px;margin-top:25px}.upload-desc{font-size:11px;color:var(--muted);line-height:1.45;margin-top:7px;min-height:34px}.analysis-bar{border-top:1px solid var(--line);margin-top:34px;padding-top:24px;display:flex;align-items:center;justify-content:space-between}.analysis-bar strong{display:block;font:700 15px 'Space Grotesk'}.analysis-bar span{font-size:11px;color:var(--muted)}button{font:800 11px Manrope;letter-spacing:.05em;cursor:pointer;border:0}.primary-button{background:var(--blue);color:#fff;padding:15px 21px;border-radius:5px;box-shadow:0 8px 16px rgba(39,71,199,.2)}.primary-button span{font-size:16px;margin-left:10px}.message{font-size:12px;color:var(--red);min-height:15px}.results-section{background:#fff}.hidden{display:none}.results-head{display:flex;justify-content:space-between;align-items:flex-start}.results-actions{display:flex;align-items:center;gap:10px;flex:none}.results-clear{width:38px;height:38px;border-radius:50%;background:#f2f4fb;color:var(--muted);font-size:22px;line-height:1;display:grid;place-items:center;transition:.15s}.results-clear:hover{background:#ffe9e9;color:var(--red)}.secondary-button{background:#edf0ff;color:var(--blue);padding:13px 16px;border-radius:5px;text-decoration:none;font:800 11px Manrope;letter-spacing:.05em;display:inline-block}.metrics{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:12px;margin-top:32px}.metric{border:1px solid var(--line);padding:20px;border-radius:6px}.metric-feature{background:#fff3f3;border-color:#ffd1d1}.metric-label{font-size:11px;color:var(--muted);display:block;min-height:30px}.metric strong{display:block;font:700 30px 'Space Grotesk';margin:8px 0;color:var(--ink)}.metric-feature strong{color:var(--red);font-size:42px}.metric span:last-child{font-size:10px;color:var(--muted)}.table-heading{display:flex;justify-content:space-between;align-items:flex-end;margin-top:50px}.table-heading h3{font:700 19px 'Space Grotesk';margin:0}.table-heading p{color:var(--muted);font-size:11px}.table-heading>span{font-size:11px;color:var(--muted)}.table-scroll{overflow:auto;margin-top:16px}table{width:100%;border-collapse:collapse;font-size:12px;min-width:760px}th{text-align:left;background:#f1f3fb;color:var(--muted);font-size:10px;letter-spacing:.06em;padding:13px}td{padding:15px 13px;border-bottom:1px solid var(--line)}td:nth-child(2){font-weight:700}.alert-name{color:var(--red)}.substitution{color:var(--blue);font-weight:700}.empty-table{text-align:center;color:var(--muted);padding:35px}footer{background:#141b52;color:#fff;padding:35px clamp(24px,10vw,150px);display:flex;align-items:center;gap:22px;flex-wrap:wrap}footer strong{font:700 14px 'Space Grotesk'}footer span{color:#b8c2ec;font-size:11px}footer small{margin-left:auto;color:#7f8bc1;font-size:9px;letter-spacing:.12em}@media(max-width:800px){.header-note,.hero-orbit{display:none}.hero{min-height:330px;padding:55px 24px}.section-shell{padding:40px 24px}.upload-grid{grid-template-columns:repeat(2,1fr)}.metrics{grid-template-columns:repeat(2,1fr)}.results-head{gap:20px;flex-direction:column}.library-state{font-size:10px}.analysis-bar{align-items:flex-start;gap:18px;flex-direction:column}.analysis-bar button{width:100%}}@media(max-width:480px){.upload-grid,.metrics{grid-template-columns:1fr}.topbar{padding:0 18px}.brand span{display:none}.hero h1{font-size:45px}.section-kicker h2{font-size:25px}footer{display:block}footer span{display:block;margin:10px 0}footer small{display:block}}
+
+/* ================= Загварын сайжруулалт ================= */
+
+/* Файл оруулах drop zone */
+.upload-card{position:relative;border-radius:10px;transition:border-color .18s,box-shadow .18s,transform .18s}
+.upload-card input[type=file]{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.upload-drop{margin-top:auto;display:flex;align-items:center;gap:8px;border:1.5px dashed #c6cfe8;border-radius:8px;padding:10px;background:#fbfcff;transition:.18s}
+.upload-drop-icon{width:21px;height:21px;border-radius:50%;background:#e8edfd;color:var(--blue);display:grid;place-items:center;font-size:12px;font-weight:800;flex:none}
+.upload-drop-icon:before{content:'\2191'}
+.upload-drop-text{font-size:10px;font-weight:700;color:var(--blue);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.upload-card:hover .upload-drop{border-color:var(--blue);background:#f4f7ff}
+.upload-card.is-dragging{border-color:var(--blue);transform:translateY(-3px);box-shadow:0 12px 26px rgba(39,71,199,.18)}
+.upload-card.is-dragging .upload-drop{border-color:var(--blue);background:#eaf0ff}
+.upload-card.is-filled{border-color:#8ed4b5;background:linear-gradient(180deg,#fff,#f5fdf9)}
+.upload-card.is-filled .upload-drop{border-style:solid;border-color:#8ed4b5;background:#eefaf4}
+.upload-card.is-filled .upload-drop-icon{background:#d7f1e5;color:#12855a}
+.upload-card.is-filled .upload-drop-icon:before{content:'\2713'}
+.upload-card.is-filled .upload-drop-text{color:#12855a}
+
+/* Шинжилгээний мөр */
+.analysis-hint strong{display:block;font:700 14px 'Space Grotesk'}
+.analysis-hint span{font-size:11px;color:var(--muted)}
+
+/* Хайлт */
+.search-wrap{border-radius:10px;transition:border-color .18s,box-shadow .18s}
+.search-wrap:focus-within{border-color:var(--blue);box-shadow:0 12px 30px rgba(39,71,199,.14)}
+.search-results{display:flex;flex-direction:column;gap:8px}
+.result-item{border:1px solid var(--line);border-radius:9px;transition:.18s}
+.result-item:hover{border-color:#b9c6ee;box-shadow:0 8px 20px rgba(39,71,199,.08);transform:translateY(-1px)}
+
+/* Товчнууд */
+.primary-button{transition:.18s}
+.primary-button:hover{background:#1d38a8;box-shadow:0 12px 22px rgba(39,71,199,.28);transform:translateY(-1px)}
+.primary-button:active{transform:translateY(0)}
+.secondary-button{transition:.18s}
+.secondary-button:hover{background:#e0e7ff;color:#1d38a8}
+
+/* Метрик */
+.metric{border-radius:9px;transition:.18s}
+.metric:hover{border-color:#c9d3f0;box-shadow:0 8px 20px rgba(39,71,199,.07)}
+
+/* Хүснэгт */
+.table-scroll{border:1px solid var(--line);border-radius:9px}
+th{position:sticky;top:0;z-index:1}
+tbody tr:nth-child(even){background:#fafbff}
+tbody tr:hover{background:#f1f5ff}
+tbody tr:last-child td{border-bottom:0}
+td{vertical-align:top}
+th:nth-child(3),th:nth-child(4),th:nth-child(8),th:nth-child(9),
+td:nth-child(3),td:nth-child(4),td:nth-child(8),td:nth-child(9){text-align:right;white-space:nowrap}
+
+/* Бүлгийн карт */
+.group-card{transition:.18s}
+.group-card:hover{border-color:#b9c6ee;box-shadow:0 8px 18px rgba(39,71,199,.08);transform:translateY(-1px)}
+
+/* Бүлгүүдийн хэсгийг нуух */
+[hidden]{display:none!important}
+.group-head-right{display:flex;align-items:center;gap:10px;flex:none}
+.group-hide{width:28px;height:28px;border-radius:50%;background:#f2f4fb;color:var(--muted);font-size:18px;line-height:1;display:grid;place-items:center;transition:.15s}
+.group-hide:hover{background:#ffe9e9;color:var(--red)}
+.group-restore{max-width:1080px;margin:26px auto 0;border-top:1px solid var(--line);padding-top:18px}
+.group-restore button{background:#edf0ff;color:var(--blue);padding:11px 16px;border-radius:6px;transition:.15s}
+.group-restore button:hover{background:#e0e7ff;color:#1d38a8}
+
+/* Логоны хажуугийн уриа */
+.brand{gap:14px}
+.brand span{font-size:14px;font-weight:600;color:#5b6488;margin-top:3px;line-height:1.3}
+
+/* Топбар: лого голд, текстүүд хоёр талд (ижил фонт/өнгө/хэмжээ) */
+.topbar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px}
+.topbar-text{font:600 21px Manrope,sans-serif;color:#5b6488;line-height:1.3;display:block}
+.topbar-left{text-align:left}
+.topbar-right{text-align:right}
+.topbar-logo{display:grid;place-items:center}
+@media(max-width:1250px){.topbar-right{display:none}}
+@media(max-width:820px){.topbar-left{display:none}}
+@media(max-width:820px){.topbar{height:78px!important}.brand-logo{height:52px}}
+
+/* Жижиг дэлгэцэд уриануудыг зохистой хэмжээнд */
+@media(max-width:700px){.intro-footer strong,.intro-footer span{font-size:16px}}
+
+/* Метрик: 5 карт (алдсан борлуулалт нэмэгдсэн) */
+.metrics{grid-template-columns:1.35fr repeat(4,1fr)}
+.metric-loss strong{color:var(--red)}
+@media(max-width:1150px){.metrics{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:800px){.metrics{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.metrics{grid-template-columns:1fr}}
+
+/* Зүүн дээд буланд цахим туслах: цээжин бие, хөх зурвас дээгүүр дамжина */
+.topbar{position:relative}
+.assistant-photo{position:absolute;left:clamp(18px,4vw,56px);top:4px;height:178px;width:auto;z-index:5;pointer-events:none}
+.topbar-left{display:flex;align-items:center;padding-left:132px}
+
+/* Хөх зурвас: 30% зузаан + текстийг ~3см (113px) хойшлуулав */
+.intro-footer{padding:23px clamp(18px,4vw,56px) 23px calc(clamp(18px,4vw,56px) + 113px)}
+
+@media(max-width:820px){
+  .assistant-photo{height:124px;top:2px}
+  .topbar-left{padding-left:92px}
+  .intro-footer{padding-left:calc(clamp(18px,4vw,56px) + 78px)}
+}
+
+/* Бүх текстийг ижил фонтоор (хамгийн сайнаараа зөвлөнө гэдгийн фонт) */
+*{font-family:Calibri,'Segoe UI',sans-serif!important}

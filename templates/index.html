@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="mn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Монос | Салбарын шинжилгээ</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <span class="topbar-text topbar-left">
+      <img class="assistant-photo" src="{{ url_for('static', filename='monos-assistant.png') }}" alt="Моносын цахим туслах">
+      <span>Моносын ажилтнуудын цахим туслах. <span class="status-dot"></span></span>
+    </span>
+    <span class="topbar-logo">
+      {% if logo_exists %}
+      <img class="brand-logo" src="{{ url_for('static', filename='monos-logo.png') }}" alt="Монос лого">
+      {% else %}
+      <span class="brand-word">МОНОС</span>
+      {% endif %}
+    </span>
+    <span class="topbar-text topbar-right">Монгол оюун сэтгэлгээг дэлхийд таниулна.</span>
+  </header>
+  <footer class="intro-footer"><strong>ҮЙЛЧЛҮҮЛЭГЧ БҮРТ ХАМГИЙН САЙНААРАА ЗӨВЛӨНӨ.</strong><span>Бидний мэргэжлийн мэдлэг Монгол хүний эрүүл мэндийг хамгаалахад нэн чухал.</span></footer>
+
+  <main>
+    <section class="search-panel section-shell">
+      <div class="section-kicker"><span>01</span><div><p class="eyebrow">ШУУРХАЙ ХАЙЛТ</p><h2>Орлуулах бүтээгдэхүүн хайх</h2></div></div>
+      <form class="search-wrap" method="get" action="{{ url_for('index') }}">
+        <button type="submit" class="search-icon" aria-label="Хайх">⌕</button>
+        <input name="q" type="search" value="{{ query }}" placeholder="Дотоод код эсвэл бүтээгдэхүүний нэрээр хайх..." autocomplete="off">
+        <a class="search-clear" href="{{ url_for('index') }}" title="Хайлт цэвэрлэх" aria-label="Хайлт цэвэрлэх">×</a>
+      </form>
+      <div class="search-results">
+        {% if not query %}
+          <div class="empty-state"><span class="empty-icon">⌁</span><p>Бүтээгдэхүүний код эсвэл нэр оруулна уу</p></div>
+        {% elif not substitutions_loaded %}
+          <div class="empty-state"><p>Одоогийн фолдерийн Орлуулах.xlsx файл ачаалагдсангүй</p></div>
+        {% elif matches %}
+          {% for item in matches %}
+            <div class="result-item">
+              <div class="result-main">
+                <span class="result-tag">{% if item.alternatives %}{{ item.alternatives|length }} орлуулах сонголт{% else %}СОНГОЛТГҮЙ{% endif %}</span>
+                <strong>{{ item.name }}</strong>
+                <span>{{ item.code }}</span>
+              </div>
+              <div class="result-code">
+                {% if item.alternatives %}
+                  {% for alt in item.alternatives %}<div><b>{{ alt.code }}</b> {{ alt.name }}</div>{% endfor %}
+                {% else %}
+                  Орлуулах бүтээгдэхүүн бүртгэгдээгүй
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          <div class="empty-state"><p>Тохирох бүтээгдэхүүн олдсонгүй</p></div>
+        {% endif %}
+      </div>
+
+      {% if groups %}
+      <div class="group-block" id="groupBlock">
+        <div class="group-head">
+          <h3>Орлуулах бүтээгдэхүүний бүлгүүд</h3>
+          <div class="group-head-right">
+            <span>{{ groups|length }} бүлэг &nbsp;·&nbsp; Орлуулах.xlsx</span>
+            <button type="button" class="group-hide" title="Энэ хэсгийг нуух" aria-label="Энэ хэсгийг нуух">×</button>
+          </div>
+        </div>
+        <div class="group-grid">
+          {% for group in groups %}
+          <div class="group-card">
+            <span class="group-number">{{ '%02d'|format(loop.index) }}</span>
+            {% for item in group %}
+            <div class="group-item{% if loop.first %} group-item-lead{% endif %}">
+              <b>{{ item.code }}</b>
+              <span>{{ item.name }}</span>
+            </div>
+            {% endfor %}
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="group-restore" id="groupRestore" hidden>
+        <button type="button">Орлуулах бүтээгдэхүүний бүлгүүдийг харуулах</button>
+      </div>
+      {% endif %}
+    </section>
+
+    <form class="upload-section section-shell" method="post" action="{{ url_for('analyze_route') }}" enctype="multipart/form-data">
+      <div class="section-kicker"><span>02</span><div><p class="eyebrow">ӨГӨГДӨЛ ОРУУЛАЛТ</p><h2>Шинжилгээний тайлангууд</h2></div><div class="library-state"><span class="status-dot"></span>Сангийн файлууд холбогдсон</div></div>
+      <div class="upload-grid">
+        {% for field in [
+          ('01', 'sales', 'Борлуулалтын тайлан', 'Шинжилгээ хийх хугацааны ERP тайлан'),
+          ('02', 'previous', 'Өмнөх сарын борлуулалт', 'Өмнөх сарын ердийн борлуулалтын тайлан'),
+          ('03', 'warehouse', 'Агуулахын тайлан', 'Хангалтын хувь тооцох үеийн үлдэгдэл'),
+          ('04', 'outage', 'Тасалдлын тайлан', 'Ижил хугацааны тасарсан нэр төрөл')
+        ] %}
+        <label class="upload-card">
+          <input type="file" name="{{ field[1] }}" accept=".xlsx,.xls,.csv">
+          <span class="upload-number">{{ field[0] }}</span>
+          <span class="upload-title">{{ field[2] }}</span>
+          <span class="upload-desc">{{ field[3] }}</span>
+          <span class="upload-drop">
+            <span class="upload-drop-icon"></span>
+            <span class="upload-drop-text">Энд дарж файлаа оруул</span>
+          </span>
+        </label>
+        {% endfor %}
+      </div>
+      <div class="analysis-bar">
+        <div class="analysis-hint"><strong>Шинжилгээ хийхэд бэлэн үү?</strong><span>Тайлангуудаа оруулаад товчийг дарахад үр дүн доор гарч ирнэ.</span></div>
+        <button type="submit" class="primary-button">ШИНЖИЛГЭЭ ХИЙХ <span>↗</span></button>
+      </div>
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}<p class="message" role="status">{{ messages[0] }}</p>{% endif %}
+      {% endwith %}
+    </form>
+
+    {% if analysis %}
+    <section class="results-section section-shell">
+      <div class="results-head">
+        <div><p class="eyebrow">03 / ШИНЖИЛГЭЭНИЙ ҮР ДҮН</p><h2>Салбарын зураглал</h2></div>
+        <div class="results-actions">
+          <a href="{{ url_for('download_route') }}" class="secondary-button">⇩ &nbsp; БОЛОВСРУУЛАЛТ ТАТАЖ АВАХ</a>
+          <form method="post" action="{{ url_for('clear_route') }}">
+            <button type="submit" class="results-clear" title="Үр дүнг арилгах" aria-label="Үр дүнг арилгах">×</button>
+          </form>
+        </div>
+      </div>
+      <div class="metrics">
+        <div class="metric metric-feature"><span class="metric-label">Танай салбарын ЗБНТ-н хангалтын хувь</span><strong>{{ coverage }}%</strong><span>ЗБНТЖ-н {{ required_total }} нэр төрлөөс {{ matched }} нь үлдэгдэлтэй</span></div>
+        <div class="metric"><span class="metric-label">Тасалдсан нэр төрөл</span><strong>{{ outage_total }}</strong><span>боловсруулагдсан бүтээгдэхүүн</span></div>
+        <div class="metric metric-loss"><span class="metric-label">Нийт алдсан борлуулалт</span><strong>{{ lost_revenue_total|money }}</strong><span>{{ lost_units_total|round|int }} ш алдагдсанаас</span></div>
+        <div class="metric"><span class="metric-label">Орлуулсан борлуулалт</span><strong>{{ analysis|sum(attribute='revenue')|money }}</strong><span>нийт борлуулалтын орлого</span></div>
+        <div class="metric"><span class="metric-label">Давуулсан борлуулалт</span><strong>{{ analysis|sum(attribute='excess')|round|int }} ш</strong><span>{{ analysis|sum(attribute='excessRevenue')|money }} дүнгээр</span></div>
+      </div>
+      <div class="table-heading"><div><h3>Тасалдсан нэр төрлийн боловсруулалт</h3><p>Орлуулах бүтээгдэхүүний борлуулалт болон өмнөх сарын ӨДБ-г харьцуулсан дүн</p></div><span>{{ analysis|length }} мөр</span></div>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Дотоод код</th><th>Тасалдсан нэр төрөл</th><th>Алдсан борлуулалтын тоо</th><th>Алдсан борлуулалтын дүн</th><th>Орлуулсан бүтээгдэхүүн</th><th>Орлуулсан борлуулалтын тоо</th><th>Орлуулсан борлуулалтын дүн</th><th>Давуулсан борлуулалтын тоо</th><th>Давуулсан борлуулалтын дүн</th></tr></thead>
+          <tbody>
+            {% for row in analysis %}
+            <tr>
+              <td>{{ row.code }}</td>
+              <td class="{{ 'alert-name' if row.required else '' }}">{{ row.name }}{% if row.required %} • ЗБНТЖ{% endif %}</td>
+              <td>{{ row.lostUnits|round|int }} ш</td>
+              <td>{{ row.lostRevenue|money }}</td>
+              <td class="substitution">{% for alt in row.alternatives %}{{ alt.code }} {{ alt.name }}{% if not loop.last %}<br>{% endif %}{% endfor %}</td>
+              <td>{% for alt in row.alternatives %}{{ alt.units|round|int }} ш{% if not loop.last %}<br>{% endif %}{% endfor %}</td>
+              <td>{% for alt in row.alternatives %}{{ alt.revenue|money }}{% if not loop.last %}<br>{% endif %}{% endfor %}</td>
+              <td>{{ row.excess|round|int }} ш</td>
+              <td>{{ row.excessRevenue|money }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+    {% endif %}
+  </main>
+
+  <!-- Хайлтын шүүлт (Enter даралгүй). Бүх тооцоолол сервер талд Python дээр хэвээр. -->
+  <script id="products-data" type="application/json">{{ products|tojson }}</script>
+  <script>
+    (function () {
+      const source = document.getElementById('products-data');
+      const box = document.querySelector('.search-results');
+      const input = document.querySelector('.search-wrap input[name="q"]');
+      if (!source || !box || !input) return;
+      const products = JSON.parse(source.textContent);
+
+      // Сервер талын match_rank-тай яг ижил эрэмбэ.
+      function matchRank(item, query) {
+        const code = item.code.toLowerCase();
+        const name = item.name.toLowerCase();
+        if (code.startsWith(query)) return 0;
+        if (name.startsWith(query)) return 1;
+        if (code.includes(query)) return 2;
+        if (name.includes(query)) return 3;
+        const alts = item.alternatives;
+        if (alts.some(a => a.code.toLowerCase().startsWith(query) || a.name.toLowerCase().startsWith(query))) return 4;
+        if (alts.some(a => a.code.toLowerCase().includes(query) || a.name.toLowerCase().includes(query))) return 5;
+        return null;
+      }
+
+      function el(tag, className, text) {
+        const node = document.createElement(tag);
+        if (className) node.className = className;
+        if (text !== undefined) node.textContent = text;
+        return node;
+      }
+
+      function emptyState(message, icon) {
+        const wrap = el('div', 'empty-state');
+        if (icon) wrap.appendChild(el('span', 'empty-icon', icon));
+        wrap.appendChild(el('p', null, message));
+        return wrap;
+      }
+
+      function render(query) {
+        box.textContent = '';
+        if (!query) {
+          box.appendChild(emptyState('Бүтээгдэхүүний код эсвэл нэр оруулна уу', '⌁'));
+          return;
+        }
+        if (!products.length) {
+          box.appendChild(emptyState('Одоогийн фолдерийн Орлуулах.xlsx файл ачаалагдсангүй'));
+          return;
+        }
+
+        const ranked = [];
+        products.forEach(item => {
+          const rank = matchRank(item, query);
+          if (rank !== null) ranked.push([rank, item]);
+        });
+        ranked.sort((a, b) => a[0] - b[0]);
+
+        if (!ranked.length) {
+          box.appendChild(emptyState('Тохирох бүтээгдэхүүн олдсонгүй'));
+          return;
+        }
+
+        ranked.slice(0, 12).forEach(([, item]) => {
+          const row = el('div', 'result-item');
+          const main = el('div', 'result-main');
+          main.appendChild(el('span', 'result-tag', item.alternatives.length ? item.alternatives.length + ' орлуулах сонголт' : 'СОНГОЛТГҮЙ'));
+          main.appendChild(el('strong', null, item.name));
+          main.appendChild(el('span', null, item.code));
+          row.appendChild(main);
+
+          const codes = el('div', 'result-code');
+          if (item.alternatives.length) {
+            item.alternatives.forEach(alt => {
+              const line = el('div');
+              line.appendChild(el('b', null, alt.code));
+              line.appendChild(document.createTextNode(' ' + alt.name));
+              codes.appendChild(line);
+            });
+          } else {
+            codes.textContent = 'Орлуулах бүтээгдэхүүн бүртгэгдээгүй';
+          }
+          row.appendChild(codes);
+          box.appendChild(row);
+        });
+      }
+
+      input.addEventListener('input', () => render(input.value.trim().toLowerCase()));
+
+      // X дарахад хуудас дахин ачаалалгүй цэвэрлэнэ (JS унтарсан үед href="/" ажиллана).
+      const clear = document.querySelector('.search-clear');
+      if (clear) {
+        clear.addEventListener('click', event => {
+          event.preventDefault();
+          input.value = '';
+          render('');
+          input.focus();
+        });
+      }
+    })();
+
+    // Файл оруулах карт: сонгосон файлын нэрийг харуулах + чирж оруулах.
+    (function () {
+      document.querySelectorAll('.upload-card').forEach(card => {
+        const input = card.querySelector('input[type="file"]');
+        const label = card.querySelector('.upload-drop-text');
+        if (!input || !label) return;
+        const placeholder = label.textContent;
+
+        function refresh() {
+          const file = input.files && input.files[0];
+          card.classList.toggle('is-filled', Boolean(file));
+          label.textContent = file ? file.name : placeholder;
+          label.title = file ? file.name : '';
+        }
+
+        input.addEventListener('change', refresh);
+
+        ['dragenter', 'dragover'].forEach(type => {
+          card.addEventListener(type, event => {
+            event.preventDefault();
+            card.classList.add('is-dragging');
+          });
+        });
+        ['dragleave', 'dragend', 'drop'].forEach(type => {
+          card.addEventListener(type, () => card.classList.remove('is-dragging'));
+        });
+        card.addEventListener('drop', event => {
+          event.preventDefault();
+          const dropped = event.dataTransfer && event.dataTransfer.files;
+          if (dropped && dropped.length) {
+            input.files = dropped;
+            refresh();
+          }
+        });
+
+        refresh();
+      });
+    })();
+
+    // Бүлгүүдийн хэсгийг нуух / буцааж харуулах (сонголтыг хөтөч дээр санана).
+    (function () {
+      const block = document.getElementById('groupBlock');
+      const restore = document.getElementById('groupRestore');
+      if (!block || !restore) return;
+      const hideBtn = block.querySelector('.group-hide');
+      const showBtn = restore.querySelector('button');
+      const KEY = 'subg.groups.hidden';
+
+      function apply(hidden) {
+        block.hidden = hidden;
+        restore.hidden = !hidden;
+      }
+
+      function remember(hidden) {
+        try {
+          if (hidden) localStorage.setItem(KEY, '1');
+          else localStorage.removeItem(KEY);
+        } catch (e) { /* хөтөч хориглосон бол зүгээр өнгөрнө */ }
+      }
+
+      let stored = false;
+      try { stored = localStorage.getItem(KEY) === '1'; } catch (e) { stored = false; }
+      apply(stored);
+
+      if (hideBtn) hideBtn.addEventListener('click', () => { apply(true); remember(true); });
+      if (showBtn) showBtn.addEventListener('click', () => { apply(false); remember(false); });
+    })();
+  </script>
+</body>
+</html>
