@@ -551,6 +551,7 @@ def analyze(sales_rows, previous_rows, warehouse_rows, outage_rows):
             'name': source['name'],
             'alternatives': alternative_sales,
             'outageDays': outage_days,
+            'hasAlternatives': any(item['code'] for item in alternative_sales),
             'sold': sold,
             'revenue': revenue,
             'lostUnits': lost_units,
@@ -560,7 +561,8 @@ def analyze(sales_rows, previous_rows, warehouse_rows, outage_rows):
             'required': code in required_codes,
         })
 
-    results.sort(key=lambda row: (-row['sold'], -row['revenue']))
+    # Орлуулах бараатай нэр төрлүүд эхэнд, дотроо орлуулалтын дүнгээр эрэмбэлэгдэнэ.
+    results.sort(key=lambda row: (not row['hasAlternatives'], -row['revenue'], -row['lostRevenue']))
     return {
         'coverage': coverage,
         'matched': len(matched_required_codes),
