@@ -120,7 +120,7 @@
     {% if analysis %}
     <section class="results-section section-shell">
       <div class="results-head">
-        <div><p class="eyebrow">03 / ШИНЖИЛГЭЭНИЙ ҮР ДҮН</p><h2>Салбарын зураглал</h2></div>
+        <div><p class="eyebrow">03 / ШИНЖИЛГЭЭНИЙ ҮР ДҮН</p><h2>ҮР ДҮН</h2></div>
         <div class="results-actions">
           <a href="{{ url_for('download_route') }}" class="secondary-button">⇩ &nbsp; БОЛОВСРУУЛАЛТ ТАТАЖ АВАХ</a>
           <form method="post" action="{{ url_for('clear_route') }}">
@@ -129,16 +129,15 @@
         </div>
       </div>
       <div class="metrics">
-        <div class="metric metric-feature"><span class="metric-label">Танай салбарын ЗБНТ-н хангалтын хувь</span><strong>{{ coverage }}%</strong><span>ЗБНТЖ-н {{ required_total }} нэр төрлөөс {{ matched }} нь үлдэгдэлтэй</span></div>
-        <div class="metric"><span class="metric-label">Тасалдсан нэр төрөл</span><strong>{{ outage_total }}</strong><span>боловсруулагдсан бүтээгдэхүүн</span></div>
-        <div class="metric metric-loss"><span class="metric-label">Нийт алдсан борлуулалт</span><strong>{{ lost_revenue_total|money }}</strong><span>{{ lost_units_total|round|int }} ш алдагдсанаас</span></div>
-        <div class="metric"><span class="metric-label">Орлуулсан борлуулалт</span><strong>{{ analysis|sum(attribute='revenue')|money }}</strong><span>нийт борлуулалтын орлого</span></div>
-        <div class="metric"><span class="metric-label">Давуулсан борлуулалт</span><strong>{{ analysis|sum(attribute='excess')|round|int }} ш</strong><span>{{ analysis|sum(attribute='excessRevenue')|money }} дүнгээр</span></div>
+        <div class="metric metric-feature"><span class="metric-label">ЗБНТ-н хангалтын хувь</span><strong>{{ coverage }}%</strong><span>агуулахад {{ matched }} / нийт {{ required_total }}</span></div>
+        <div class="metric metric-loss"><span class="metric-label">Тасалдсан нэр төрөл · Алдсан нийт борлуулалтын дүн</span><strong>{{ lost_revenue_total|money }}</strong><span>{{ outage_total }} тасалдсан нэр төрөл</span></div>
+        <div class="metric {{ 'metric-gain' if substituted_revenue_total >= 0 else 'metric-loss' }}"><span class="metric-label">Орлуулан борлуулалт хийсэн нэр төрөл · Нийт дүн</span><strong>{{ substituted_revenue_total|money }}</strong><span>{{ substituted_count }} нэр төрөлд орлуулан борлуулалт хийгдсэн</span></div>
+        <div class="metric {{ 'metric-loss' if gap_revenue_total > 0 else 'metric-gain' }}"><span class="metric-label">Бодит тасалдлын дүн (зөрүү)</span><strong>{{ gap_revenue_total|money }}</strong><span>Алдсан нийт − Орлуулсан нийт</span></div>
       </div>
-      <div class="table-heading"><div><h3>Тасалдсан нэр төрлийн боловсруулалт</h3><p>Орлуулах бүтээгдэхүүний борлуулалт болон өмнөх сарын ӨДБ-г харьцуулсан дүн</p></div><span>{{ analysis|length }} мөр</span></div>
+      <div class="table-heading"><div><h3>Тасалдсан нэр төрлийн боловсруулалт</h3><p>Тасалдсан нэр төрөл бүрийн орлуулах бүтээгдэхүүн ба тэдгээрийн борлуулалт &nbsp;·&nbsp; Нөхөлт, боломжит борлуулалтын дэлгэрэнгүй тооцоо татаж авах Excel файлд</p></div><span>{{ analysis|length }} мөр</span></div>
       <div class="table-scroll">
         <table>
-          <thead><tr><th>Дотоод код</th><th>Тасалдсан нэр төрөл</th><th>Алдсан борлуулалтын тоо</th><th>Алдсан борлуулалтын дүн</th><th>Орлуулсан бүтээгдэхүүн</th><th>Орлуулсан борлуулалтын тоо</th><th>Орлуулсан борлуулалтын дүн</th><th>Давуулсан борлуулалтын тоо</th><th>Давуулсан борлуулалтын дүн</th></tr></thead>
+          <thead><tr><th>Дотоод код</th><th>Тасалдсан нэр төрөл</th><th>Алдсан борлуулалтын тоо</th><th>Алдсан борлуулалтын дүн</th><th>Орлуулсан бүтээгдэхүүн</th><th>Орлуулсан борлуулалтын тоо</th><th>Орлуулсан борлуулалтын дүн</th></tr></thead>
           <tbody>
             {% for row in analysis %}
             <tr>
@@ -149,8 +148,6 @@
               <td class="substitution">{% for alt in row.alternatives %}{{ alt.code }} {{ alt.name }}{% if not loop.last %}<br>{% endif %}{% endfor %}</td>
               <td>{% for alt in row.alternatives %}{{ alt.units|round|int }} ш{% if not loop.last %}<br>{% endif %}{% endfor %}</td>
               <td>{% for alt in row.alternatives %}{{ alt.revenue|money }}{% if not loop.last %}<br>{% endif %}{% endfor %}</td>
-              <td>{{ row.excess|round|int }} ш</td>
-              <td>{{ row.excessRevenue|money }}</td>
             </tr>
             {% endfor %}
           </tbody>
