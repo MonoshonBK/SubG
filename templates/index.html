@@ -131,7 +131,7 @@
       <div class="metrics">
         <div class="metric metric-feature"><span class="metric-label">ЗБНТ-н хангалтын хувь</span><strong>{{ coverage }}%</strong><span>агуулахад {{ matched }} / нийт {{ required_total }}</span></div>
         <div class="metric metric-loss"><span class="metric-label">Тасалдсан нэр төрөл · Алдсан нийт борлуулалтын дүн</span><strong>{{ lost_revenue_total|money }}</strong><span>{{ outage_total }} тасалдсан нэр төрөл</span></div>
-        <div class="metric {{ 'metric-gain' if substituted_revenue_total >= 0 else 'metric-loss' }}"><span class="metric-label">Орлуулан борлуулалт хийсэн нэр төрөл · Нийт дүн</span><strong>{{ substituted_revenue_total|money }}</strong><span>{{ substituted_count }} нэр төрөлд орлуулан борлуулалт хийгдсэн</span></div>
+        <div class="metric {{ 'metric-gain' if substituted_revenue_total >= 0 else 'metric-loss' }}"><span class="metric-label">Орлуулан борлуулалт хийсэн нэр төрөл · Нийт дүн</span><strong>{{ substituted_revenue_total|money }}</strong><span>{{ substituted_count }} нэр төрөлд орлуулан борлуулалт хийгдсэн</span><span class="metric-extra">Бүлгийн орлуулагч барааны нийт борлуулалт: {{ group_sales_total|money }}</span></div>
         <div class="metric {{ 'metric-loss' if gap_revenue_total > 0 else 'metric-gain' }}"><span class="metric-label">Бодит тасалдлын дүн (зөрүү)</span><strong>{{ gap_revenue_total|money }}</strong><span>Алдсан нийт − Орлуулсан нийт</span></div>
       </div>
       <div class="table-heading"><div><h3>Тасалдсан нэр төрлийн боловсруулалт</h3><p>Тасалдсан нэр төрөл бүрийн орлуулах бүтээгдэхүүн ба тэдгээрийн борлуулалт &nbsp;·&nbsp; Нөхөлт, боломжит борлуулалтын дэлгэрэнгүй тооцоо татаж авах Excel файлд</p></div><span>{{ analysis|length }} мөр</span></div>

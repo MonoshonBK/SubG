@@ -573,6 +573,15 @@ def analyze(sales_rows, previous_rows, warehouse_rows, outage_rows):
         'substituted_revenue_total': sum(row['revenue'] for row in results),
         # Хэдэн нэр төрөлд бодитоор орлуулан борлуулалт хийгдсэн бэ
         'substituted_count': sum(1 for row in results if row['revenue'] > 0),
+        # Бүлгүүдэд багтсан орлуулагч бараануудын нийт борлуулалтын дүн
+        # (давхардуулахгүйн тулд ялгаатай кодоор нь нэгтгэнэ).
+        'group_sales_total': sum(
+            sale_map.get(member, {}).get('revenue', 0)
+            for member in {
+                alt['code']
+                for row in results for alt in row['alternatives'] if alt['code']
+            }
+        ),
         # Бодит тасалдлын дүн (зөрүү) = алдсан нийт − орлуулсан нийт
         'gap_revenue_total': (
             sum(item['revenue'] for item in outage_map.values()) - sum(row['revenue'] for row in results)
@@ -632,7 +641,7 @@ EMPTY_ANALYSIS = {
     'coverage': 0, 'analysis': [], 'matched': 0, 'required_total': 0,
     'lost_units_total': 0, 'lost_revenue_total': 0, 'outage_total': 0,
     'substituted_units_total': 0, 'substituted_revenue_total': 0,
-    'substituted_count': 0, 'gap_revenue_total': 0,
+    'substituted_count': 0, 'gap_revenue_total': 0, 'group_sales_total': 0,
     'previous_days': 0, 'analysis_period_days': 0,
 }
 
@@ -675,6 +684,7 @@ def index():
         substituted_revenue_total=LAST_ANALYSIS['substituted_revenue_total'],
         substituted_count=LAST_ANALYSIS['substituted_count'],
         gap_revenue_total=LAST_ANALYSIS['gap_revenue_total'],
+        group_sales_total=LAST_ANALYSIS['group_sales_total'],
         previous_days=LAST_ANALYSIS['previous_days'],
         analysis_period_days=LAST_ANALYSIS['analysis_period_days'],
         analysis=LAST_ANALYSIS['analysis'],
