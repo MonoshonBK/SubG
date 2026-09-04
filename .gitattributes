@@ -1,0 +1,9 @@
+* text=auto eol=lf
+Procfile text eol=lf
+*.py text eol=lf
+*.txt text eol=lf
+
+*.xlsx binary
+*.docx binary
+*.png binary
+*.jpg binary

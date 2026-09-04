@@ -9,11 +9,17 @@ import openpyxl
 from flask import Flask, flash, redirect, render_template, request, send_file, url_for
 
 app = Flask(__name__)
-app.secret_key = secrets.token_hex(16)
+
+# Production-д SECRET_KEY-г Environment табаас өгнө. Санамсаргүй түлхүүр бол
+# сервер дахин асах бүрд сессүүд (flash мессеж) тасардаг.
+app.secret_key = os.environ.get('SECRET_KEY') or secrets.token_hex(16)
+
+# Ажлын хавтас (CWD) хаана ч байсан эх файлууд олдохын тулд app.py-гийн хавтаснаас тооцно.
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 DEFAULT_FILES = {
-    'substitutions': 'Орлуулах.xlsx',
-    'required': 'ЗБНТЖ.xlsx',
+    'substitutions': os.path.join(BASE_DIR, 'Орлуулах.xlsx'),
+    'required': os.path.join(BASE_DIR, 'ЗБНТЖ.xlsx'),
 }
 
 STATE = {'substitutions': [], 'required': [], 'groups': [], 'required_codes': set()}
@@ -573,4 +579,9 @@ def download_route():
 load_defaults()
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    # Байршуулсан орчинд 0.0.0.0:8000 (Dokploy-н Container Port) дээр сонсоно.
+    app.run(
+        host=os.environ.get('HOST', '0.0.0.0'),
+        port=int(os.environ.get('PORT', '8000')),
+        debug=os.environ.get('DEBUG', '').lower() in ('1', 'true', 'yes'),
+    )
