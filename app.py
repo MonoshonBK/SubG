@@ -311,6 +311,32 @@ def sales_price_map(rows):
     return prices
 
 
+def warehouse_prices(rows):
+    """Агуулахын тайлангийн 'Худалдах нэгж үнэ' — код тус бүрээр.
+
+    Хамгийн өргөн хамрах хүрээтэй бодит нэгж үнийн эх сурвалж.
+    """
+    header_index, code_column = header_code_column(rows)
+    if code_column < 0:
+        return {}
+    price_column = 5  # 'Худалдах нэгж үнэ' — энэ тайлангийн ердийн байрлал
+    for column, value in enumerate(rows[header_index]):
+        label = clean(value).lower()
+        if 'үнэ' in label and 'худалдах' in label:
+            price_column = column
+            break
+
+    prices = {}
+    for row in rows[header_index + 1:]:
+        code = clean(get(row, code_column))
+        if not code or not code_like(code) or code in prices:
+            continue
+        price = js_number_or_zero(get(row, price_column))
+        if price:
+            prices[code] = price
+    return prices
+
+
 def outage_prices(rows):
     """Тасалдлын тайлангийн G багана (индекс 6) = 'Нэгж үнэ'."""
     header_index, code_column = header_code_column(rows)
@@ -465,6 +491,22 @@ def analyze(sales_rows, previous_rows, warehouse_rows, outage_rows):
     previous_map = sales_map(previous_rows)
     price_map = outage_prices(outage_rows)
     sale_price_map = sales_price_map(sales_rows)
+    warehouse_price_map = warehouse_prices(warehouse_rows)
+
+    def unit_price(product_code):
+        """Бодит нэгж үнэ: агуулахын 'Худалдах нэгж үнэ' (5-р багана) тэргүүн ээлжинд.
+
+        Борлуулалтын тайлангийн E багана заримдаа бүх бараанд нэг утга агуулдаг
+        тул хамгийн сүүлд, өөр эх сурвалж олдоогүй үед л хэрэглэнэ.
+        """
+        if product_code in warehouse_price_map:
+            return warehouse_price_map[product_code]
+        if product_code in price_map:
+            return price_map[product_code]
+        sale = sale_map.get(product_code, {})
+        if sale.get('units'):
+            return sale['revenue'] / sale['units']
+        return sale_price_map.get(product_code, 0)
 
     # ӨДБ-г өмнөх сарын тайлангийн хугацаанд хуваан гаргаж, шинжилгээний
     # (борлуулалтын тайлангийн) хоногоор үржүүлнэ.
@@ -493,7 +535,7 @@ def analyze(sales_rows, previous_rows, warehouse_rows, outage_rows):
             current_daily = sale_map.get(member, {}).get('units', 0) / analysis_period_days
             previous_daily = previous_map.get(member, {}).get('units', 0) / previous_days
             member_units = (current_daily - previous_daily) * outage_days
-            member_price = sale_price_map.get(member, 0)
+            member_price = unit_price(member)
             alternative_sales.append({
                 'code': member,
                 'name': item['name'],
